@@ -1,23 +1,143 @@
 #include<stdio.h>
 #include<string.h>
+void menuComputadores(void);
+float Valiquota(float preco);
+float Vicms(float preco);
+float Vfrete(float preco);
+void extratoComputadores(char *produto, float frete, float aliquota, float icms, float total, char *endereco, char *estado, char *nome);
+void comprarComputadores(int tipo, char *estado, char *endereco, char *nome);
+
+void menuComputadores(void){
+            printf("Escolha um dos produtos abaixo: \n");
+            printf("(1) Apple\n");
+            printf("(2) Pc Intel Core i5\n");
+            printf("(3) Pc Intel Core i5 8gb 240gb ssd\n");
+            printf("(4) Pc Gamer completo\n");
+            printf("(5) Pc Gamer Intel Core i5 8gb ram ddr3 hd ssd 480gb\n");
+}
+
+float Valiquota(float preco){
+    return preco * 0.1;
+}
+
+float Vicms(float preco){
+    return preco * 0.05;
+}
+
+float Vfrete(float preco){
+    if(preco > 1500){
+        return 0.00;
+    }else{
+        return 80.00;
+    }
+}
+
+void extratoComputadores(char *produto, float frete, float aliquota, float icms, float total, char *endereco, char *estado, char *nome){
+    printf("Aqui está seu extrato de compras %s:", nome);
+    printf("\n");
+    printf("Produto: %s \n", produto);
+    printf("Frete: %.2f \n", frete);
+    printf("Aliquota: %.2f \n", aliquota);
+    printf("ICMS: %.2f \n", icms);
+    printf("Total a ser pago: %.2f \n",total);
+    printf("Endereco de entrega:\n%s%s",endereco, estado);
+    printf("\n");
+}
+
+void comprarComputadores(int tipo, char *estado, char *endereco, char *nome){
+    float preco_final;
+    float aliquota = 0, frete, icms;
+    switch (tipo){
+        case 1:
+            preco_final = 9599.00;
+            aliquota = Valiquota(9599.00);
+            frete = Vfrete(preco_final);
+            preco_final += aliquota;
+            if(strcmp(estado, "SP") != 0 || strcmp(estado, "Sp") != 0 || strcmp(estado, "sp") != 0){
+            icms = Vicms(9599.00);
+            preco_final += icms;
+            }
+            preco_final += frete;   
+
+            extratoComputadores("MacBook", frete, aliquota, icms, preco_final, endereco, estado, nome);
+
+        break;
+
+        case 2:
+            preco_final = 1589.16;
+            frete = Vfrete(preco_final);
+            if(strcmp(estado, "SP") != 0 || strcmp(estado, "Sp") != 0 || strcmp(estado, "sp") != 0){
+            icms = Vicms(preco_final);
+            preco_final += icms;
+            }
+            preco_final += frete; 
+
+            extratoComputadores("PC Intel Core i5", frete, aliquota, icms, preco_final, endereco, estado, nome);
+ 
+        break;
+
+        case 3:
+            preco_final = 1494.80;
+            frete = Vfrete(preco_final);
+            if(strcmp(estado, "SP") != 0 || strcmp(estado, "Sp") != 0 || strcmp(estado, "sp") != 0){
+            icms = Vicms(preco_final);
+            preco_final += icms;
+            }
+            preco_final += frete;  
+
+            extratoComputadores("PC Intel Core I5 8gb 240gb Ssd", frete, aliquota, icms, preco_final, endereco, estado, nome);
+        break;
+
+        case 4:
+            preco_final = 2748.00;
+            frete = Vfrete(preco_final);
+            if(strcmp(estado, "SP") != 0 || strcmp(estado, "Sp") != 0 || strcmp(estado, "sp") != 0){
+            icms = Vicms(preco_final);
+            preco_final += icms;
+            }
+            preco_final += frete; 
+
+            extratoComputadores("PC Gamer Completo", frete, aliquota, icms, preco_final, endereco, estado, nome);
+        break;
+
+        case 5:
+            preco_final = 2748.00;
+            frete = Vfrete(preco_final);
+            if(strcmp(estado, "SP") != 0 || strcmp(estado, "Sp") != 0 || strcmp(estado, "sp") != 0){
+            icms = Vicms(preco_final);
+            preco_final += icms;
+            }
+            preco_final += frete; 
+
+            extratoComputadores("PC Intel Core i5 8GB ram", frete, aliquota, icms, preco_final, endereco, estado, nome);
+        break;
+    }
+
+    
+
+    printf("\nQuer comprar algum alimento?\n");
+
+}
+
+
 
 int main(){
     int n;
     char estado[3];
-    char nome[50];
-    char endereco[100];
+    char nome[100];
+    char endereco[250];
 
     char vetorP[5][20] = {"Cafe Santa Monica", "Red Bull", "Pipoca Yoki", "Creme de leite", "Laranja"};
     float valor[5] = {0,0,0,0,0};
     float vetorQ[5] = {0,0,0,0,0};
 
     printf("Digite seu nome:\n");
-    fgets(nome, 50, stdin);
+    fgets(nome, 100, stdin);
     printf("Digite seu estado(Ex:SP, ultilizando letras maiusculas):\n");
     fgets(estado, 3, stdin);
     getchar();
     printf("Digite sua cidade, rua, numero e cep:\n");
-    fgets(endereco, 100, stdin);
+    fgets(endereco, 250, stdin);
     printf("\n***Dados cadastrados***\n");
     
     printf("\nEscreva um numero para as seguintes opcoes:");
@@ -34,226 +154,12 @@ if (n == 1 || n == 2){
             float valorPc;
             float frete = 80;
             float icms;
-            printf("Escolha um dos produtos abaixo: \n");
-            printf("(1) Apple\n");
-            printf("(2) Pc Intel Core i5\n");
-            printf("(3) Pc Intel Core i5 8gb 240gb ssd\n");
-            printf("(4) Pc Gamer completo\n");
-            printf("(5) Pc Gamer Intel Core i5 8gb ram ddr3 hd ssd 480gb\n");
+            
+            menuComputadores();
 
             scanf("%i", &p);
 
-            switch(p){
-                case 1:
-                    float aliquota = 9599.99 * 0.10;
-
-                    if(strcmp(estado, "SP") == 0){ 
-                        valorPc = 9599.99 + aliquota;
-                        icms = 0.00;
-                    }
-                    else{
-                        icms = valorPc * 0.05;
-                        valorPc = icms + aliquota;
-                    };
-                    if(valorPc < 1800.00){
-                        valorPc = valorPc + frete;
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nApple");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: %.2f", aliquota);
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-                        break;
-                    }
-                    
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nApple");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: %.2f", aliquota);
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-
-                break;
-
-                case 2:
-                valorPc = 1589.00;
-                     if(strcmp(estado, "SP") == 0){
-                        icms = 0.00;
-                        return valorPc;
-                    }
-                    else{
-                        icms = valorPc * 0.05;
-                        valorPc = valorPc + icms ;
-                    };
-                    if(valorPc < 1800.00){
-                        valorPc = valorPc + frete;
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nPc Intel Core i5");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: 0.00");
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-                        break;
-                    }
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nPc Intel Core i5");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: 0.00");
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-
-                    
-                    
-                break;
-
-                case 3:
-                valorPc = 1494.00;
-                    if(strcmp(estado, "SP") == 0){
-                        icms = 0.00;
-                        return valorPc;
-                        }
-                    else{
-                        icms = valorPc * 0.05;
-                        valorPc = valorPc + icms ;
-                    };
-                    if(valorPc < 1800.00){
-                        valorPc = valorPc + frete;
-                        valorPc = valorPc;
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nPc Intel Core i5 8gb 240gb ssd");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: 0.00");
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-                        break;
-                    }
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nPc Intel Core i5 8gb 240gb ssd");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: 0.00");
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-
-                    
-                    
-                break;
-                    
-                case 4:
-                valorPc = 2748.00;
-                    if(strcmp(estado, "SP") == 0){
-                        icms = 0.00;
-                        return valorPc;
-                    }
-                    else{
-                        icms = valorPc * 0.05;
-                        valorPc = valorPc + icms ;
-                    };
-                    if(valorPc < 1800.00){
-                        valorPc = valorPc + frete;
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nPc Gamer completo");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: 0.00");
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-                        break;
-                    }
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nPc  Gamer completo");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: 0.00");
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-
-                    
-
-                break;
-
-                case 5:
-                valorPc = 1693.00;
-                    if(strcmp(estado, "SP") == 0){
-                        icms = 0.00;
-                        return valorPc;
-                    }
-                    else{
-                        icms = valorPc * 0.05;
-                        valorPc = valorPc + icms ;
-                    };
-                    if(valorPc < 1800.00){
-                        valorPc = valorPc + frete;
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nPc Intel Core i5 8gb ram ddr3 480gb hd ssd");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: 0.00");
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-                        break;
-                    }
-                        //saida
-                            printf("\n%s", nome);
-                            printf("\nquantidade: 1");
-                            printf("\nPc Intel Core i5 8gb ram ddr3 480gb hd ssd");
-                            printf("\nFrete: %.2f", frete);
-                            printf("\nAliquota: 0.00");
-                            printf("\nICMS: %.2f", icms);
-                            printf("\nTotal: %.2f", valorPc);
-                            printf("\nEndereço de entrega:");
-                            printf("%s", endereco);
-                            printf("%s\n", estado);
-
-                    
-                    
-                break;
-            }
-            
-
-
-
+            comprarComputadores(p, estado, endereco, nome);
 
         break;
     
