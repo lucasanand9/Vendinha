@@ -1,11 +1,19 @@
 #include<stdio.h>
 #include<string.h>
+
+char vetorP[5][20] = {"Cafe Santa Monica", "Red Bull- 24 Latas", "Pipoca Yoki", "Creme de leite", "Laranja"};
+float valorP [5] = {57.04, 193.90,1.88, 6.57, 8.15};
+
 void menuComputadores(void);
 float Valiquota(float preco);
 float Vicms(float preco);
 float Vfrete(float preco);
 void extratoComputadores(char *produto, float frete, float aliquota, float icms, float total, char *endereco, char *estado, char *nome);
 void comprarComputadores(int tipo, char *estado, char *endereco, char *nome);
+
+void menuALimentos(void);
+void extratoAlimento(char *nome, char *endereco, char *estado, char vetorP[][20], float *valor, float *qtd);
+void comprarAlimentos(float *valorP, char vetorP[][20], char *nome, char *endereco, char *estado);
 
 void menuComputadores(void){
             printf("Escolha um dos produtos abaixo: \n");
@@ -114,8 +122,71 @@ void comprarComputadores(int tipo, char *estado, char *endereco, char *nome){
     }
 
     
-
+    char continuar;
     printf("\nQuer comprar algum alimento?\n");
+    scanf(" %c", &continuar);
+    if(continuar == 's'){
+        comprarAlimentos(valorP, vetorP, nome, endereco, estado);
+    }
+}
+
+void menuALimentos(void){
+    printf("\nQual dos produtos abaixo voce quer comprar?\n");
+    printf("(0) Café santa Monica\n");
+    printf("(1) Red Bull\n");
+    printf("(2) Pipoca Yoki\n");
+    printf("(3) Creme de leite\n");
+    printf("(4) Laranja\n");
+}
+
+void extratoAlimento(char *nome, char *endereco, char *estado, char vetorP[][20], float *valor, float *qtd){
+    printf("Aqui esta o extrato da compra %s\n", nome);
+    printf("Pedido:\n");
+    for(int i = 0; i < 5; i++){
+        printf("%s: R$%.2f - quantidade: %.1f\n", vetorP[i], valor[i], qtd[i]);
+    }
+    float total = 0.;
+    for(int i = 0; i< 5; i++){
+        total += valor[i];
+    }
+    printf("O total foi de R$%.2f\n", total);
+    printf("\n\n");
+    printf("Endereco de entrega:\n");
+    printf("%s%s\n", endereco, estado);
+}
+
+void comprarAlimentos(float *valorP, char vetorP[][20], char *nome, char *endereco, char *estado){
+    float valor[5] = {0,0,0,0,0};
+    float vetorQ[5] = {0,0,0,0,0};
+    int n, qtd;
+    float kg;
+    char continua;
+    while(1){
+        menuALimentos();
+
+        scanf(" %i", &n);
+        printf("Voce esta comprando %s\n", vetorP[n]);
+        if(strcmp(vetorP[n],"Laranja") == 0){
+            printf("Digite quanto kilos deseja comprar: \n");
+            scanf(" %f", &kg);
+            vetorQ[n] += kg;
+            valor[n] += valorP[n]*kg;
+        }else{
+            printf("Digite a quantidade que deseja comprar: \n");
+            scanf(" %i", &qtd);
+            vetorQ[n] += qtd; 
+            valor[n] += valorP[n]*qtd;
+        }
+
+        printf("Deseja comprar mais algum produto?(S/N)\n");
+        scanf(" %c", &continua);
+
+        if(continua == 'N'|| continua == 'n'){
+            break;
+        }
+    }
+
+    extratoAlimento(nome, endereco, estado, vetorP,valor, vetorQ);
 
 }
 
@@ -127,10 +198,8 @@ int main(){
     char nome[100];
     char endereco[250];
 
-    char vetorP[5][20] = {"Cafe Santa Monica", "Red Bull", "Pipoca Yoki", "Creme de leite", "Laranja"};
-    float valor[5] = {0,0,0,0,0};
-    float vetorQ[5] = {0,0,0,0,0};
-
+   
+    
     printf("Digite seu nome:\n");
     fgets(nome, 100, stdin);
     printf("Digite seu estado(Ex:SP, ultilizando letras maiusculas):\n");
@@ -164,108 +233,11 @@ if (n == 1 || n == 2){
         break;
     
         case 2:
-            int w = 0;
-            while (w != 2){
-                printf("\nQuer comprar mais algum produto?\n");
-                printf("(1) Sim\n");
-                printf("(2) Nao, finalizar compras\n");
-                scanf("%i", &w);
-
-                if (w == 1)
-                {
-                    int p;
-                    int q = 0;
-                    float kg = 0;
-                    float valorP;
-                    float ValorKg;
-                    
-                    
-                    printf("\nQual dos produtos abaixo voce quer comprar?\n");
-                    printf("(1) Café santa Monica\n");
-                    printf("(2) Red Bull\n");
-                    printf("(3) Pipoca Yoki\n");
-                    printf("(4) Creme de leite\n");
-                    printf("(5) Laranja\n");
-                    scanf("%i", &p);
-
-                    switch (p){
-                    case 1:
-                        printf("Café\n");
-                        printf("Digite a quantidade desejada: \n");
-                        scanf("%i", &q);
-                        vetorQ[0] = q;
-                        valorP = q  * 57.04;
-                        valor[0] = valorP;
-
-                    break;
-                    
-                    case 2:
-                        printf("red bull\n");
-                        printf("Digite a quantidade desejada: \n");
-                        scanf("%i", &q);
-                        vetorQ[1] = q;
-                        valorP = q * 193.90;
-                        valor[1] = valorP;
-                    break;
-
-                    case 3:
-                        printf("pipoca\n");
-                        printf("Digite a quantidade desejada: \n");
-                        scanf("%i", &q);
-                        vetorQ[2] = q;
-                        valorP = q * 1.88;
-                        valor[2] = valorP;
-                    break;
-
-                    case 4:
-                        printf("creme de leite\n");
-                        printf("Digite a quantidade desejada: \n");
-                        scanf("%i", &q);
-                        vetorQ[3] = q;
-                        valorP = q * 6.57;
-                        valor[3] = valorP;
-                    break;
-
-                    case 5:
-                        printf("laranja\n");
-                        printf("Digite quantos kilos voce vai comprar: \n");
-                        scanf("%f", &kg);
-                        vetorQ[4] = kg;
-                        ValorKg = kg * 8.15;
-                        valor[4] = ValorKg;
-                    break;
-
-                    default:
-                        break;
-                    }
-
-
-                }
+            
+        comprarAlimentos(valorP, vetorP, nome, endereco, estado);
                 
-            }
-            //mostrar o total
-            printf("Alimentos e Bebidas compradas:\n");
-            for (int i = 0; i < 5; i++){
-                //verificar o porque as strings nao estao sendo imprimidas
-                printf("%i: %s - %.1f Quantidades\n", i+1, vetorP[i], vetorQ[i]);
-                printf("O valor eh: %.2f Reais\n",valor[i]);
-            }
-
-            float valorT = 0;
-            for(int i; i < 5; i++){
-                valorT = valorT + valor[i];
-            }
-    
-                printf("\nO Frete: gratis");
-                printf("\nValor total a ser pago é %.2f Reais.", valorT);
-                printf("\nEndereco de entrega:\n"); 
-                printf("%s\n", endereco);
-                printf("%s\n", estado);
-                
-        break;
-
-    default:
-        break;
-        }
+         break;   
+       
     }
+}
 }
